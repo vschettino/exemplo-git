@@ -8,6 +8,7 @@ int main()
     int mem = 0;
     mem = getAvailableMemory();
     printf("Available memory: %d", mem);
+    printf("Available cpus: %d", getAvailableCpus());
     return 0;
 }
 
@@ -20,4 +21,15 @@ getAvailableMemory(){
     mem = atoi(buffer);
     pclose(fp);
     return mem;
+}
+
+getAvailableCpus(){
+    int cpus = 0;
+    FILE *fp;
+    char buffer[100];
+    fp = popen("cat /proc/cpuinfo | grep processor | wc -l", "r");
+    fgets(buffer, 100, fp);
+    cpus = atoi(buffer);
+    pclose(fp);
+    return cpus;
 }
